@@ -1,0 +1,38 @@
+{
+  "name": "barnacles-tds",
+  "homepage": "https://www.reelyactive.com",
+  "author": {
+    "name": "reelyActive",
+    "email": "info@reelyactive.com"
+  },
+  "description": "Write IoT data to SQL Server using TDS.  We believe in an open Internet of Things.",
+  "keywords": [
+    "reelyActive",
+    "IoT",
+    "SQL Server",
+    "TDS"
+  ],
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "./lib/barnaclestds.js",
+  "scripts": {
+    "start": "node bin/barnacles-tds"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reelyactive/barnacles-tds.git"
+  },
+  "dependencies": {
+    "tedious": "^18.6.1"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/reelyactive/barnacles-tds/issues"
+  },
+  "contributors": [
+    { "name": "Jeffrey Dungen" }
+  ],
+  "license": "MIT"
+}

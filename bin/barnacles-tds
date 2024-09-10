@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const BarnaclesTDS = require('../lib/barnaclestds.js');
+
+
+let barnaclesTDS = new BarnaclesTDS({ printErrors: true });
+
+
+console.log('barnacles-tds instantiation test');
