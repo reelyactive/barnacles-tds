@@ -1,13 +1,49 @@
 barnacles-tds
 =============
 
-__barnacles-tds__ writes IoT data to a SQL Server database using TDS.
+__barnacles-tds__ writes IoT data to a SQL Server database using TDS (Tabular Data Stream).
 
 ![Overview of barnacles-tds](https://reelyactive.github.io/barnacles-tds/images/overview.png)
 
-__barnacles-tds__ ingests a real-time stream of _raddec_ and _dynamb_ objects from [barnacles](https://github.com/reelyactive/barnacles/) which it adapts to write to the SQL Server database.
+__barnacles-tds__ ingests a real-time stream of _raddec_ and _dynamb_ objects from [barnacles](https://github.com/reelyactive/barnacles/) which it writes to the specified SQL Server database as JSON.  It couples seamlessly with reelyActive's [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware.
 
 __barnacles-tds__ is a lightweight [Node.js package](https://www.npmjs.com/package/barnacles-tds) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.
+
+
+Pareto Anywhere integration
+---------------------------
+
+A common application of __barnacles-tds__ is to write IoT data from [pareto-anywhere](https://github.com/reelyactive/pareto-anywhere) to a SQL Server database.  Simply follow our [Create a Pareto Anywhere startup script](https://reelyactive.github.io/diy/pareto-anywhere-startup-script/) tutorial using the script below:
+
+```javascript
+#!/usr/bin/env node
+
+const ParetoAnywhere = require('../lib/paretoanywhere.js');
+
+// Edit the options to match your SQL Server configuration
+const BARNACLES_TDS_OPTIONS = {
+    sqlServer: "127.0.0.1",
+    sqlUsername: "admin",
+    sqlPassword: "admin",
+    sqlInstanceName: "pareto-anywhere",
+    sqlDatabase: "pareto-anywhere"
+};
+
+// ----- Exit gracefully if the optional dependency is not found -----
+let BarnaclesTDS;
+try {
+  BarnaclesTDS = require('barnacles-tds');
+}
+catch(err) {
+  console.log('This script requires barnacles-tds.  Install with:');
+  console.log('\r\n    "npm install barnacles-tds"\r\n');
+  return console.log('and then run this script again.');
+}
+// -------------------------------------------------------------------
+
+let pa = new ParetoAnywhere();
+pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
+```
 
 
 Contributing
