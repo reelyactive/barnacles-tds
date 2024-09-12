@@ -22,11 +22,13 @@ const ParetoAnywhere = require('../lib/paretoanywhere.js');
 
 // Edit the options to match your SQL Server configuration
 const BARNACLES_TDS_OPTIONS = {
-    sqlServer: "127.0.0.1",
-    sqlUsername: "admin",
-    sqlPassword: "admin",
-    sqlInstanceName: "pareto-anywhere",
-    sqlDatabase: "pareto-anywhere"
+    server: "127.0.0.1",
+    username: "admin",
+    password: "admin",
+    instanceName: "pareto-anywhere",
+    database: "pareto-anywhere",
+    raddecTable: "raddec",
+    dynambTable: "dynamb"
 };
 
 // ----- Exit gracefully if the optional dependency is not found -----
