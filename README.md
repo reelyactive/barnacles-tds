@@ -48,6 +48,22 @@ pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
 ```
 
 
+Options
+-------
+
+__barnacles-tds__ supports the following options:
+
+| Property     | Default           | Description                             | 
+|:-------------|:------------------|:----------------------------------------|
+| server       | "127.0.0.1"       | The SQL Server                          |
+| username     | "admin"           | Username to log onto the SQL Server     |
+| password     | "admin"           | Password to log onto the SQL Server     |
+| instanceName | "pareto-anywhere" | Server instance name                    |
+| database     | "pareto-anywhere" | Database name                           |
+| raddecTable  | "raddec"          | Name of table in which to store raddecs |
+| dynambTable  | "dynamb"          | Name of table in which to store dynambs |
+
+
 Contributing
 ------------
 
