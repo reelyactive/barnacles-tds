@@ -43,6 +43,18 @@ let pa = new ParetoAnywhere();
 pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
 ```
 
+## MS SQL Server Setup
+
+Use the following query to setup the table that will store the dynamb messages.
+The column name can be changed if desired, and is configurable through the options.
+
+```
+CREATE TABLE dynamb (
+  _storeId int NOT NULL IDENTITY PRIMARY KEY,
+  dynamb VARCHAR(8000) NOT NULL,
+)
+```
+
 ## Options
 
 **barnacles-tds** supports the following options:
