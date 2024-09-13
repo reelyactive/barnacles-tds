@@ -3,12 +3,14 @@
 // setup barnacles-tds
 const BarnaclesTDS = require("../lib/barnaclestds.js");
 
-let barnaclesTDS = new BarnaclesTDS({
+const BARNACLES_TDS_OPTIONS = {
   printErrors: true,
   server: process.env.TDS_SERVER,
   username: process.env.TDS_USER,
   password: process.env.TDS_PASSWORD,
-});
+};
+
+let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);
 
 const INTERVAL_MILLISECONDS = process.env.INTERVAL_MILLISECONDS || 5000;
 setInterval(generateDynamb, INTERVAL_MILLISECONDS);
