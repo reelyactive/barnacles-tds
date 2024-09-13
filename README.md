@@ -1,45 +1,41 @@
-barnacles-tds
-=============
+# barnacles-tds
 
-__barnacles-tds__ writes IoT data to a SQL Server database using TDS (Tabular Data Stream).
+**barnacles-tds** writes IoT data to a SQL Server database using TDS (Tabular Data Stream).
 
 ![Overview of barnacles-tds](https://reelyactive.github.io/barnacles-tds/images/overview.png)
 
-__barnacles-tds__ ingests a real-time stream of _raddec_ and _dynamb_ objects from [barnacles](https://github.com/reelyactive/barnacles/) which it writes to the specified SQL Server database as JSON.  It couples seamlessly with reelyActive's [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware.
+**barnacles-tds** ingests a real-time stream of _raddec_ and _dynamb_ objects from [barnacles](https://github.com/reelyactive/barnacles/) which it writes to the specified SQL Server database as JSON. It couples seamlessly with reelyActive's [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware.
 
-__barnacles-tds__ is a lightweight [Node.js package](https://www.npmjs.com/package/barnacles-tds) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.
+**barnacles-tds** is a lightweight [Node.js package](https://www.npmjs.com/package/barnacles-tds) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.
 
+## Pareto Anywhere integration
 
-Pareto Anywhere integration
----------------------------
-
-A common application of __barnacles-tds__ is to write IoT data from [pareto-anywhere](https://github.com/reelyactive/pareto-anywhere) to a SQL Server database.  Simply follow our [Create a Pareto Anywhere startup script](https://reelyactive.github.io/diy/pareto-anywhere-startup-script/) tutorial using the script below:
+A common application of **barnacles-tds** is to write IoT data from [pareto-anywhere](https://github.com/reelyactive/pareto-anywhere) to a SQL Server database. Simply follow our [Create a Pareto Anywhere startup script](https://reelyactive.github.io/diy/pareto-anywhere-startup-script/) tutorial using the script below:
 
 ```javascript
 #!/usr/bin/env node
 
-const ParetoAnywhere = require('../lib/paretoanywhere.js');
+const ParetoAnywhere = require("../lib/paretoanywhere.js");
 
 // Edit the options to match your SQL Server configuration
 const BARNACLES_TDS_OPTIONS = {
-    server: "127.0.0.1",
-    username: "admin",
-    password: "admin",
-    instanceName: "pareto-anywhere",
-    database: "pareto-anywhere",
-    raddecTable: "raddec",
-    dynambTable: "dynamb"
+  server: "127.0.0.1",
+  username: "admin",
+  password: "admin",
+  instanceName: "pareto-anywhere",
+  database: "pareto-anywhere",
+  raddecTable: "raddec",
+  dynambTable: "dynamb",
 };
 
 // ----- Exit gracefully if the optional dependency is not found -----
 let BarnaclesTDS;
 try {
-  BarnaclesTDS = require('barnacles-tds');
-}
-catch(err) {
-  console.log('This script requires barnacles-tds.  Install with:');
+  BarnaclesTDS = require("barnacles-tds");
+} catch (err) {
+  console.log("This script requires barnacles-tds.  Install with:");
   console.log('\r\n    "npm install barnacles-tds"\r\n');
-  return console.log('and then run this script again.');
+  return console.log("and then run this script again.");
 }
 // -------------------------------------------------------------------
 
@@ -47,37 +43,31 @@ let pa = new ParetoAnywhere();
 pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
 ```
 
+## Options
 
-Options
--------
+**barnacles-tds** supports the following options:
 
-__barnacles-tds__ supports the following options:
-
-| Property     | Default           | Description                             | 
-|:-------------|:------------------|:----------------------------------------|
+| Property     | Default           | Description                             |
+| :----------- | :---------------- | :-------------------------------------- |
 | server       | "127.0.0.1"       | The SQL Server                          |
 | username     | "admin"           | Username to log onto the SQL Server     |
 | password     | "admin"           | Password to log onto the SQL Server     |
 | instanceName | "pareto-anywhere" | Server instance name                    |
 | database     | "pareto-anywhere" | Database name                           |
 | raddecTable  | "raddec"          | Name of table in which to store raddecs |
+| raddecColumn | "raddec"          | Name of column in which to store raddec |
 | dynambTable  | "dynamb"          | Name of table in which to store dynambs |
+| dynambColumn | "dynamb"          | Name of column in which to store dynamb |
 
-
-Contributing
-------------
+## Contributing
 
 Discover [how to contribute](CONTRIBUTING.md) to this open source project which upholds a standard [code of conduct](CODE_OF_CONDUCT.md).
 
-
-Security
---------
+## Security
 
 Consult our [security policy](SECURITY.md) for best practices using this open source software and to report vulnerabilities.
 
-
-License
--------
+## License
 
 MIT License
 
@@ -87,10 +77,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
