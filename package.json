@@ -18,7 +18,8 @@
   },
   "main": "./lib/barnaclestds.js",
   "scripts": {
-    "start": "node bin/barnacles-tds"
+    "start": "node bin/barnacles-tds",
+    "simulator": "node bin/dynamb-simulator"
   },
   "repository": {
     "type": "git",

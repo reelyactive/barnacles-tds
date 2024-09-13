@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+// setup barnacles-tds
+const BarnaclesTDS = require("../lib/barnaclestds.js");
+
+let barnaclesTDS = new BarnaclesTDS({
+  printErrors: true,
+  server: process.env.TDS_SERVER,
+  username: process.env.TDS_USER,
+  password: process.env.TDS_PASSWORD,
+});
+
+const INTERVAL_MILLISECONDS = process.env.INTERVAL_MILLISECONDS || 5000;
+setInterval(generateDynamb, INTERVAL_MILLISECONDS);
+
+console.info(
+  "barnacles-tds with simulated data every",
+  INTERVAL_MILLISECONDS,
+  "ms"
+);
+
+/**
+ * Generate a random dynamb event and send it to a barnacles module
+ */
+function generateDynamb() {
+  let dynamb = {
+    deviceId: "fee150bada55",
+    deviceIdType: 3,
+    isContactDetected: [Math.random() < 0.1 ? false : true],
+    isMotionDetected: [Math.random() < 0.1 ? true : false],
+    timestamp: Date.now(),
+  };
+
+  barnaclesTDS.handleEvent("dynamb", dynamb);
+}
