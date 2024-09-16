@@ -25,7 +25,9 @@ const BARNACLES_TDS_OPTIONS = {
   instanceName: "pareto-anywhere",
   database: "pareto-anywhere",
   raddecTable: "raddec",
+  raddecColumn: "raddec",
   dynambTable: "dynamb",
+  dynambColumn: "dynamb"
 };
 
 // ----- Exit gracefully if the optional dependency is not found -----
