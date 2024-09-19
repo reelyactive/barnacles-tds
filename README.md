@@ -22,8 +22,8 @@ const BARNACLES_TDS_OPTIONS = {
   server: "127.0.0.1",
   username: "admin",
   password: "admin",
-  instanceName: "pareto-anywhere",
-  database: "pareto-anywhere",
+  instanceName: "reelyactive",
+  database: "reelyactive",
   raddecTable: "raddec",
   raddecColumn: "raddec",
   dynambTable: "dynamb",
@@ -66,8 +66,8 @@ CREATE TABLE dynamb (
 | server       | "127.0.0.1"       | The SQL Server                          |
 | username     | "admin"           | Username to log onto the SQL Server     |
 | password     | "admin"           | Password to log onto the SQL Server     |
-| instanceName | "pareto-anywhere" | Server instance name                    |
-| database     | "pareto-anywhere" | Database name                           |
+| instanceName | "reelyactive"     | Server instance name                    |
+| database     | "reelyactive"     | Database name                           |
 | raddecTable  | "raddec"          | Name of table in which to store raddecs |
 | raddecColumn | "raddec"          | Name of column in which to store raddec |
 | dynambTable  | "dynamb"          | Name of table in which to store dynambs |
