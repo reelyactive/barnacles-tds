@@ -5,9 +5,16 @@ const BarnaclesTDS = require("../lib/barnaclestds.js");
 
 const BARNACLES_TDS_OPTIONS = {
   printErrors: true,
-  server: process.env.TDS_SERVER,
-  username: process.env.TDS_USER,
-  password: process.env.TDS_PASSWORD,
+  config: {
+    server: process.env.TDS_SERVER || "127.0.0.1",
+    authentication: {
+      type: "default",
+      options: {
+        userName: process.env.TDS_USER || "admin",
+        password: process.env.TDS_PASSWORD || "admin"
+      }
+    }
+  }
 };
 
 let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);

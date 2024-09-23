@@ -61,17 +61,27 @@ CREATE TABLE dynamb (
 
 **barnacles-tds** supports the following options:
 
-| Property     | Default           | Description                             |
-| :----------- | :---------------- | :-------------------------------------- |
-| server       | "127.0.0.1"       | The SQL Server                          |
-| username     | "admin"           | Username to log onto the SQL Server     |
-| password     | "admin"           | Password to log onto the SQL Server     |
-| instanceName | "reelyactive"     | Server instance name                    |
-| database     | "reelyactive"     | Database name                           |
-| raddecTable  | "raddec"          | Name of table in which to store raddecs |
-| raddecColumn | "raddec"          | Name of column in which to store raddec |
-| dynambTable  | "dynamb"          | Name of table in which to store dynambs |
-| dynambColumn | "dynamb"          | Name of column in which to store dynamb |
+| Property     | Default             | Description                             |
+| :----------- | :----------------   | :-------------------------------------- |
+| config       | { /* See below */ } | See [Tedious Connection config](https://tediousjs.github.io/tedious/api-connection.html) |
+| raddecTable  | "raddec"            | Name of table in which to store raddecs |
+| raddecColumn | "raddec"            | Name of column in which to store raddec |
+| dynambTable  | "dynamb"            | Name of table in which to store dynambs |
+| dynambColumn | "dynamb"            | Name of column in which to store dynamb |
+
+The default config is as follows:
+
+    {
+      server: "127.0.0.1",
+      authentication: {
+        type: "default",
+        options: { userName: "admin", password: "admin" }
+      },
+      options: {
+        encrypt: false,
+        database: "reelyactive"
+      }
+    }
 
 ## Contributing
 
