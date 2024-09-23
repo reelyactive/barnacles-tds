@@ -79,7 +79,7 @@ The default config is as follows:
       },
       options: {
         encrypt: false,
-        database: "reelyactive"
+        database: "pareto-anywhere"
       }
     }
 
