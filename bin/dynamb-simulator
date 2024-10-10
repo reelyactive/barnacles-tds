@@ -1,20 +1,30 @@
 #!/usr/bin/env node
 
 // setup barnacles-tds
-const BarnaclesTDS = require("../lib/barnaclestds.js");
+const BarnaclesTDS = require('../lib/barnaclestds.js');
+
+// This function will be called after the "handleEvent" method is called in the barnacles-tds module
+const handleEventCallback = function (eventType, event) {
+  console.log('Event type:', eventType);
+  console.log('Event:', event);
+};
 
 const BARNACLES_TDS_OPTIONS = {
   printErrors: true,
   config: {
-    server: process.env.TDS_SERVER || "127.0.0.1",
+    server: process.env.TDS_SERVER || '127.0.0.1',
     authentication: {
-      type: "default",
+      type: 'default',
       options: {
-        userName: process.env.TDS_USER || "admin",
-        password: process.env.TDS_PASSWORD || "admin"
-      }
-    }
-  }
+        userName: process.env.TDS_USER || 'admin',
+        password: process.env.TDS_PASSWORD || 'admin',
+      },
+    },
+    options: {
+      database: process.env.TDS_DATABASE || 'reelyactive',
+    },
+  },
+  handleEventCallback: handleEventCallback,
 };
 
 let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);
@@ -23,9 +33,9 @@ const INTERVAL_MILLISECONDS = process.env.INTERVAL_MILLISECONDS || 5000;
 setInterval(generateDynamb, INTERVAL_MILLISECONDS);
 
 console.info(
-  "barnacles-tds with simulated data every",
+  'barnacles-tds with simulated data every',
   INTERVAL_MILLISECONDS,
-  "ms"
+  'ms'
 );
 
 /**
@@ -33,12 +43,12 @@ console.info(
  */
 function generateDynamb() {
   let dynamb = {
-    deviceId: "fee150bada55",
+    deviceId: 'fee150bada55',
     deviceIdType: 3,
     isContactDetected: [Math.random() < 0.1 ? false : true],
     isMotionDetected: [Math.random() < 0.1 ? true : false],
     timestamp: Date.now(),
   };
 
-  barnaclesTDS.handleEvent("dynamb", dynamb);
+  barnaclesTDS.handleEvent('dynamb', dynamb);
 }

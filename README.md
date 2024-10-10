@@ -15,33 +15,43 @@ A common application of **barnacles-tds** is to write IoT data from [pareto-anyw
 ```javascript
 #!/usr/bin/env node
 
-const ParetoAnywhere = require("../lib/paretoanywhere.js");
+const ParetoAnywhere = require('../lib/paretoanywhere.js');
+
+let pa = new ParetoAnywhere();
 
 // Edit the options to match your SQL Server configuration
 const BARNACLES_TDS_OPTIONS = {
-  server: "127.0.0.1",
-  username: "admin",
-  password: "admin",
-  instanceName: "reelyactive",
-  database: "reelyactive",
-  raddecTable: "raddec",
-  raddecColumn: "raddec",
-  dynambTable: "dynamb",
-  dynambColumn: "dynamb"
+  config: {
+    server: '127.0.0.1',
+    authentication: {
+      type: 'default',
+      options: {
+        userName: 'admin',
+        password: 'admin',
+      },
+    },
+    options: {
+      database: 'reelyactive',
+    },
+  },
+  raddecTable: 'raddec',
+  raddecColumn: 'raddec',
+  dynambTable: 'dynamb',
+  dynambColumn: 'dynamb',
+  handleEventCallback: () => {},
 };
 
 // ----- Exit gracefully if the optional dependency is not found -----
 let BarnaclesTDS;
 try {
-  BarnaclesTDS = require("barnacles-tds");
+  BarnaclesTDS = require('barnacles-tds');
 } catch (err) {
-  console.log("This script requires barnacles-tds.  Install with:");
+  console.log('This script requires barnacles-tds.  Install with:');
   console.log('\r\n    "npm install barnacles-tds"\r\n');
-  return console.log("and then run this script again.");
+  return console.log('and then run this script again.');
 }
 // -------------------------------------------------------------------
 
-let pa = new ParetoAnywhere();
 pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
 ```
 
@@ -61,13 +71,13 @@ CREATE TABLE dynamb (
 
 **barnacles-tds** supports the following options:
 
-| Property     | Default             | Description                             |
-| :----------- | :----------------   | :-------------------------------------- |
-| config       | { /* See below */ } | See [Tedious Connection config](https://tediousjs.github.io/tedious/api-connection.html) |
-| raddecTable  | "raddec"            | Name of table in which to store raddecs |
-| raddecColumn | "raddec"            | Name of column in which to store raddec |
-| dynambTable  | "dynamb"            | Name of table in which to store dynambs |
-| dynambColumn | "dynamb"            | Name of column in which to store dynamb |
+| Property     | Default             | Description                                                                              |
+| :----------- | :------------------ | :--------------------------------------------------------------------------------------- |
+| config       | { /_ See below _/ } | See [Tedious Connection config](https://tediousjs.github.io/tedious/api-connection.html) |
+| raddecTable  | "raddec"            | Name of table in which to store raddecs                                                  |
+| raddecColumn | "raddec"            | Name of column in which to store raddec                                                  |
+| dynambTable  | "dynamb"            | Name of table in which to store dynambs                                                  |
+| dynambColumn | "dynamb"            | Name of column in which to store dynamb                                                  |
 
 The default config is as follows:
 
