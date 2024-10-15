@@ -31,7 +31,8 @@ const BARNACLES_TDS_OPTIONS = {
       },
     },
     options: {
-      database: 'reelyactive',
+      encrypt: false,
+      database: 'pareto-anywhere',
     },
   },
   raddecTable: 'raddec',
