@@ -3,7 +3,6 @@
 // setup barnacles-tds
 const BarnaclesTDS = require('../lib/barnaclestds.js');
 const Raddec = require('raddec');
-const RaddecFilter = require('raddec-filter');
 
 const BARNACLES_TDS_OPTIONS = {
   printErrors: false,
@@ -19,16 +18,13 @@ const BARNACLES_TDS_OPTIONS = {
     options: {
       database: process.env.TDS_DATABASE || 'reelyactive',
     },
+  },
+  raddecFilterparameters: {
+    acceptedEvents: [ Raddec.events.APPEARANCE, Raddec.events.DISPLACEMENT, Raddec.events.DISAPPEARANCE ],
   }
 };
 
 let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);
-
-let raddecFilterparameters = {
-  acceptedEvents: [ Raddec.events.APPEARANCE, Raddec.events.DISPLACEMENT, Raddec.events.DISAPPEARANCE ],
-}
-
-let filter = new RaddecFilter(raddecFilterparameters);
 
 const INTERVAL_MILLISECONDS = process.env.INTERVAL_MILLISECONDS || 5000;
 setInterval(generateRaddec, INTERVAL_MILLISECONDS);
@@ -43,7 +39,7 @@ console.info(
  * Generate a random dynamb event and send it to a barnacles module
  */
 function generateRaddec() {
-  let raddec = {
+  let raddec = new Raddec({
       transmitterId: "aabbccddeeff",
       transmitterIdType: Math.floor(Math.random()*8),
       rssiSignature: [{
@@ -55,12 +51,7 @@ function generateRaddec() {
       events: [ Math.floor(Math.random()*6) ],
       packets: [ ],
       timestamp: Date.now()
-    };
+    });
 
-    if (filter.isPassing(raddec)) {
-      barnaclesTDS.handleEvent('raddec', raddec);
-    } else {
-      console.log('Filtered out raddec:', raddec);
-    }
-  
+    barnaclesTDS.handleEvent('raddec', raddec);  
 }
