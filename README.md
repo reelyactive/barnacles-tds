@@ -58,13 +58,23 @@ pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
 
 ## MS SQL Server Setup
 
-Use the following query to setup the table that will store the dynamb messages.
+Use the following query to setup the table that will store the `dynamb` messages.
 The column name can be changed if desired, and is configurable through the options.
 
 ```
 CREATE TABLE dynamb (
   _storeId int NOT NULL IDENTITY PRIMARY KEY,
   dynamb VARCHAR(8000) NOT NULL,
+)
+```
+
+Use the following query to setup the table that will store the `raddec` messages.
+The column name can be changed if desired, and is configurable through the options.
+
+```
+CREATE TABLE raddec (
+  _storeId int NOT NULL IDENTITY PRIMARY KEY,
+  raddec VARCHAR(8000) NOT NULL,
 )
 ```
 
