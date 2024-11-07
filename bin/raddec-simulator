@@ -18,9 +18,6 @@ const BARNACLES_TDS_OPTIONS = {
     options: {
       database: process.env.TDS_DATABASE || 'reelyactive',
     },
-  },
-  raddecFilterparameters: {
-    acceptedEvents: [ Raddec.events.APPEARANCE, Raddec.events.DISPLACEMENT, Raddec.events.DISAPPEARANCE ],
   }
 };
 
