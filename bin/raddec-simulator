@@ -17,8 +17,16 @@ const BARNACLES_TDS_OPTIONS = {
     },
     options: {
       database: process.env.TDS_DATABASE || 'reelyactive',
-    },
-  }
+    }
+  },
+  eventsToStore: {
+    raddec: {
+      includePackets: false,
+      filters: {
+        acceptedEvents: [Raddec.events.APPEARANCE, Raddec.events.DISPLACEMENT, Raddec.events.DISAPPEARANCE]
+      }
+    }
+  }  
 };
 
 let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);
