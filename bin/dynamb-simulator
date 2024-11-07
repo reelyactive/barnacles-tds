@@ -3,12 +3,6 @@
 // setup barnacles-tds
 const BarnaclesTDS = require('../lib/barnaclestds.js');
 
-// This function will be called after the "handleEvent" method is called in the barnacles-tds module
-const handleEventCallback = function (eventType, event) {
-  console.log('Event type:', eventType);
-  console.log('Event:', event);
-};
-
 const BARNACLES_TDS_OPTIONS = {
   printErrors: true,
   config: {
@@ -23,8 +17,7 @@ const BARNACLES_TDS_OPTIONS = {
     options: {
       database: process.env.TDS_DATABASE || 'reelyactive',
     },
-  },
-  handleEventCallback: handleEventCallback,
+  }
 };
 
 let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);

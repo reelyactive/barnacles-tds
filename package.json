@@ -26,14 +26,17 @@
     "url": "https://github.com/reelyactive/barnacles-tds.git"
   },
   "dependencies": {
+    "raddec": "^0.6.0",
+    "raddec-filter": "^0.4.0",
     "tedious": "^18.6.1"
   },
-  "devDependencies": {},
   "bugs": {
     "url": "https://github.com/reelyactive/barnacles-tds/issues"
   },
   "contributors": [
-    { "name": "Jeffrey Dungen" }
+    {
+      "name": "Jeffrey Dungen"
+    }
   ],
   "license": "MIT"
 }
