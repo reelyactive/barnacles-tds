@@ -125,6 +125,15 @@ To load test sending events to a database, the `NUMBER_OF_DYNAMB_EVENTS` and `NU
 
 ```NUMBER_OF_DYNAMB_EVENTS=250 NUMBER_OF_RADDEC_EVENTS=100 npm run simulator```
 
+Each simulated event will be unique, with an `intervalCount` and `deviceNumber` used to identify when the event was sent.
+
+The `intervalCount` identifies which batch the event was created in. The count will reset each time the script is run. For `dynamb` events, the intervalCount will be stored in the `txCount` property. For `raddec` events, the intervalCount will be stored in the `numberOfDecodings` property.
+
+`dynamb` events will contain the deviceNumber in the `deviceId`, and `raddec` events will contain the deviceNumber in the `transmitterId`. It will be stored in the last two bytes of the id. For example, the id `ff690000030f` contains `030f` as the last two bytes, which is the number `783`. This means that it was the 783rd event sent during one interval. The deviceIds will reset for each interval.
+
+Using the combined values of the `intervalCount` and `deviceID` can help identify when an event was sent, useful for debugging.
+
+
 **NOTE**: If the number of events is too high, or the interval too quick, then the events will become backlogged in the `tdsRequestQueue`, and won't end up getting sent to the database. On a laptop with a local instance of SQL Server, it was found that 350 events every 1000 milliseconds was about the maximum before events became backlogged.
 
 ## Contributing
