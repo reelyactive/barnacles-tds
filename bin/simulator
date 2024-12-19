@@ -7,7 +7,7 @@ const Raddec = require('raddec');
 const BARNACLES_TDS_OPTIONS = {
   printErrors: true,
   config: {
-    server: process.env.TDS_SERVER || '127.0.0.1',
+    server: process.env.TDS_SERVER || 'localhost',
     authentication: {
       type: 'default',
       options: {
@@ -32,21 +32,15 @@ const BARNACLES_TDS_OPTIONS = {
   }  
 };
 
-let printErrors = false
-
 let barnaclesTDS = new BarnaclesTDS(BARNACLES_TDS_OPTIONS);
 
 const NUMBER_OF_DYNAMB_EVENTS = process.env.NUMBER_OF_DYNAMB_EVENTS || 1;
 const NUMBER_OF_RADDEC_EVENTS = process.env.NUMBER_OF_RADDEC_EVENTS || 1;
 const INTERVAL_MILLISECONDS = process.env.INTERVAL_MILLISECONDS || 5000;
+let intervalCount = 0;
 
-let batchNumber = 0;
-
-let generateEvents = () => {
-  batchNumber++;
-  generateRaddec();
-  generateDynamb();
-}
+// Start the process of generating events
+setInterval(generateEvents, INTERVAL_MILLISECONDS);
 
 console.info(
   'barnacles-tds with simulated data every',
@@ -54,14 +48,20 @@ console.info(
   'ms'
 );
 
+function generateEvents () {
+  intervalCount++;
+  generateRaddec();
+  generateDynamb();
+}
+
 /**
  * Generate a random dynamb event and send it to a barnacles module
  */
-let generateDynamb = () => {
-  printErrors && console.log('Sending out', NUMBER_OF_DYNAMB_EVENTS, 'dynamb events');  
+function generateDynamb() {
+  console.log('barnacles-tds: Sending out', NUMBER_OF_DYNAMB_EVENTS, 'dynamb events');  
   for (let i = 0; i < NUMBER_OF_DYNAMB_EVENTS; i++) {
     const deviceNumber = i;
-    barnaclesTDS.handleEvent('dynamb', randomDynamb(batchNumber, deviceNumber));
+    barnaclesTDS.handleEvent('dynamb', randomDynamb(intervalCount, deviceNumber));
   }
 }
 
@@ -69,25 +69,31 @@ let generateDynamb = () => {
  * Generate a random raddec event and send it to a barnacles module
  */
 function generateRaddec() {
-  printErrors && console.log('Sending out', NUMBER_OF_RADDEC_EVENTS, 'raddec events');
+  console.log('barnacles-tds: Sending out', NUMBER_OF_RADDEC_EVENTS, 'raddec events');
   for (let i = 0; i < NUMBER_OF_RADDEC_EVENTS; i++) {
     const raddecDeviceNumber = i;
-    barnaclesTDS.handleEvent('raddec', randomRaddec(batchNumber, raddecDeviceNumber));
+    barnaclesTDS.handleEvent('raddec', randomRaddec(intervalCount, raddecDeviceNumber));
   }
 }
 
-let randomDynamb = (batchNumber, deviceNumber) => {
+/* 
+  Generate a random dynamb event
+*/
+function randomDynamb(intervalCount, deviceNumber) {
   return {
     deviceId: 'ff690000' + [deviceNumber.toString(16).padStart(4, "0")],
     deviceIdType: 3,
     isContactDetected: [Math.random() < 0.1 ? false : true],
     isMotionDetected: [Math.random() < 0.1 ? true : false],
-    numberOfOccupants: batchNumber,
+    txCount: intervalCount,
     timestamp: Date.now(),
   };
 }
 
-let randomRaddec = (batchNumber, raddecDeviceNumber) => {
+/*
+* Generate a random raddec event
+*/
+function randomRaddec(intervalCount, raddecDeviceNumber) {
   return new Raddec({
     transmitterId: 'ff690000' + [raddecDeviceNumber.toString(16).padStart(4, "0")],
     transmitterIdType: Math.floor(Math.random()*8),
@@ -95,12 +101,10 @@ let randomRaddec = (batchNumber, raddecDeviceNumber) => {
         receiverId: "001bc50940810000",
         receiverIdType: Math.floor(Math.random()*8),
         rssi: Math.floor(Math.random() * ((-20) - (-75) + 1) + (-75)),
-        numberOfDecodings: batchNumber
+        numberOfDecodings: intervalCount
     }],
     events: [ Math.floor(Math.random()*6) ],
     packets: [ ],
     timestamp: Date.now()
   })
 }
-
-setInterval(generateEvents, INTERVAL_MILLISECONDS);
