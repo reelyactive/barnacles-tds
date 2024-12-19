@@ -50,6 +50,10 @@ console.info(
 
 function generateEvents () {
   intervalCount++;
+  console.log('barnacles-tds: Current tdsRequestQueue length:', barnaclesTDS.tdsRequestQueue.length)
+  if (barnaclesTDS.tdsRequestQueue.length > 0){
+    console.warn('barnacles-tds: If the `tdsRequestQueue length remains over 0, too many messages are being sent to the database for the set interval. Consider increasing the interval or decreasing the number of events being sent.')
+  }
   generateRaddec();
   generateDynamb();
 }
