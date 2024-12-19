@@ -12,7 +12,7 @@
     "SQL Server",
     "TDS"
   ],
-  "version": "1.4.0",
+  "version": "1.4.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -35,7 +35,8 @@
   },
   "contributors": [
     {
-      "name": "Jeffrey Dungen"
+      "name": "Jeffrey Dungen",
+      "name": "James Eberhardt"
     }
   ],
   "license": "MIT"
