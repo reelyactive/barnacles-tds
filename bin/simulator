@@ -64,8 +64,8 @@ function generateEvents () {
 function generateDynamb() {
   console.log('barnacles-tds: Sending out', NUMBER_OF_DYNAMB_EVENTS, 'dynamb events');  
   for (let i = 0; i < NUMBER_OF_DYNAMB_EVENTS; i++) {
-    const deviceNumber = i;
-    barnaclesTDS.handleEvent('dynamb', randomDynamb(intervalCount, deviceNumber));
+    const dynambDeviceNumber = i;
+    barnaclesTDS.handleEvent('dynamb', randomDynamb(intervalCount, dynambDeviceNumber));
   }
 }
 
@@ -83,9 +83,9 @@ function generateRaddec() {
 /* 
   Generate a random dynamb event
 */
-function randomDynamb(intervalCount, deviceNumber) {
+function randomDynamb(intervalCount, dynambDeviceNumber) {
   return {
-    deviceId: 'ff690000' + [deviceNumber.toString(16).padStart(4, "0")],
+    deviceId: 'ff690000' + [dynambDeviceNumber.toString(16).padStart(4, "0")],
     deviceIdType: 3,
     isContactDetected: [Math.random() < 0.1 ? false : true],
     isMotionDetected: [Math.random() < 0.1 ? true : false],
