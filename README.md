@@ -22,7 +22,7 @@ let pa = new ParetoAnywhere();
 // Edit the options to match your SQL Server configuration
 const BARNACLES_TDS_OPTIONS = {
   config: {
-    server: '127.0.0.1',
+    server: 'localhost',
     authentication: {
       type: 'default',
       options: {
@@ -96,7 +96,7 @@ For raddec events, all [raddec](https://github.com/reelyactive/raddec/) toFlatte
 The default config is as follows:
 
     {
-      server: "127.0.0.1",
+      server: "localhost",
       authentication: {
         type: "default",
         options: { userName: "admin", password: "admin" }
@@ -106,6 +106,35 @@ The default config is as follows:
         database: "pareto-anywhere"
       }
     }
+
+## Testing / Simulator
+
+It is possible to test `barnacles-tds` with simulated `raddec` and `dynamb` events by running the following command: 
+`npm run simulator`
+
+The following environment variables can optionally be set 
+
+| ENVIRONMENT VARIABLE        | Default      | Description                                                      |
+| :-------------------------- | :----------- | :--------------------------------------------------------------- |
+| INTERVAL_MILLISECONDS       | 5000         | Milliseconds between starting to emit events                     |
+| NUMBER_OF_DYNAMB_EVENTS     | 1            | Number of dynamb events to emit each interval                    |
+| NUMBER_OF_RADDEC_EVENTS     | 1            | Number of raddec events to emit each interval                    |
+
+
+To load test sending events to a database, the `NUMBER_OF_DYNAMB_EVENTS` and `NUMBER_OF_RADDEC_EVENTS` environment variables can be set to control the number of events sent every interval. For example: 
+
+```NUMBER_OF_DYNAMB_EVENTS=250 NUMBER_OF_RADDEC_EVENTS=100 npm run simulator```
+
+Each simulated event will be unique, with an `intervalCount` and `deviceNumber` used to identify when the event was sent.
+
+The `intervalCount` identifies which batch the event was created in. The count will reset each time the script is run. For `dynamb` events, the intervalCount will be stored in the `txCount` property. For `raddec` events, the intervalCount will be stored in the `numberOfDecodings` property.
+
+`dynamb` events will contain the deviceNumber in the `deviceId`, and `raddec` events will contain the deviceNumber in the `transmitterId`. It will be stored in the last two bytes of the id. For example, the id `ff690000030f` contains `030f` as the last two bytes, which is the number `783`. This means that it was the 783rd event sent during one interval. The deviceIds will reset for each interval.
+
+Using the combined values of the `intervalCount` and `deviceID` can help identify when an event was sent, useful for debugging.
+
+
+**NOTE**: If the number of events is too high, or the interval too quick, then the events will become backlogged in the `tdsRequestQueue`, and won't end up getting sent to the database. On a laptop with a local instance of SQL Server, it was found that 350 events every 1000 milliseconds was about the maximum before events became backlogged.
 
 ## Contributing
 
