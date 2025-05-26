@@ -114,6 +114,8 @@ The default config is as follows:
       }
     }
 
+Note that starting in v1.5.x, the `accelerationTimeSeries` property of any dynamb is automatically removed before database insertion, as the size of this value is generally incompatible with the default database settings.
+
 
 Testing / Simulator
 -------------------
