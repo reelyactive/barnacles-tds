@@ -1,16 +1,19 @@
-# barnacles-tds
+barnacles-tds
+=============
 
-**barnacles-tds** writes IoT data to a SQL Server database using TDS (Tabular Data Stream).
+__barnacles-tds__ writes IoT data to a SQL Server database using TDS (Tabular Data Stream).
 
 ![Overview of barnacles-tds](https://reelyactive.github.io/barnacles-tds/images/overview.png)
 
-**barnacles-tds** ingests a real-time stream of _raddec_ and _dynamb_ objects from [barnacles](https://github.com/reelyactive/barnacles/) which it writes to the specified SQL Server database as JSON. It couples seamlessly with reelyActive's [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware.
+__barnacles-tds__ ingests a real-time stream of _raddec_ and _dynamb_ objects from [barnacles](https://github.com/reelyactive/barnacles/) which it writes to the specified SQL Server database as JSON. It couples seamlessly with reelyActive's [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware.
 
-**barnacles-tds** is a lightweight [Node.js package](https://www.npmjs.com/package/barnacles-tds) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.
+__barnacles-tds__ is a lightweight [Node.js package](https://www.npmjs.com/package/barnacles-tds) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.
 
-## Pareto Anywhere integration
 
-A common application of **barnacles-tds** is to write IoT data from [pareto-anywhere](https://github.com/reelyactive/pareto-anywhere) to a SQL Server database. Simply follow our [Create a Pareto Anywhere startup script](https://reelyactive.github.io/diy/pareto-anywhere-startup-script/) tutorial using the script below:
+Pareto Anywhere integration
+---------------------------
+
+A common application of __barnacles-tds__ is to write IoT data from [pareto-anywhere](https://github.com/reelyactive/pareto-anywhere) to a SQL Server database. Simply follow our [Create a Pareto Anywhere startup script](https://reelyactive.github.io/diy/pareto-anywhere-startup-script/) tutorial using the script below:
 
 ```javascript
 #!/usr/bin/env node
@@ -56,7 +59,9 @@ try {
 pa.barnacles.addInterface(BarnaclesTDS, BARNACLES_TDS_OPTIONS);
 ```
 
-## MS SQL Server Setup
+
+MS SQL Server Setup
+-------------------
 
 Use the following query to setup the table that will store the `dynamb` messages.
 The column name can be changed if desired, and is configurable through the options.
@@ -78,18 +83,20 @@ CREATE TABLE raddec (
 )
 ```
 
-## Options
+
+Options
+-------
 
 **barnacles-tds** supports the following options:
 
-| Property     | Default             | Description                                                                              |
-| :----------- | :------------------ | :--------------------------------------------------------------------------------------- |
-| config       | { /_ See below _/ } | See [Tedious Connection config](https://tediousjs.github.io/tedious/api-connection.html) |
-| raddecTable  | "raddec"            | Name of table in which to store raddecs                                                  |
-| raddecColumn | "raddec"            | Name of column in which to store raddec                                                  |
-| dynambTable  | "dynamb"            | Name of table in which to store dynambs                                                  |
-| dynambColumn | "dynamb"            | Name of column in which to store dynamb                                                  |
-| eventsToStore | { dynamb: {} }     | See event-specific properties below |
+| Property      | Default             | Description                           |
+|:--------------|:--------------------|:--------------------------------------|
+| config        | { /_ See below _/ } | See [Tedious Connection config](https://tediousjs.github.io/tedious/api-connection.html) |
+| raddecTable   | "raddec"            | Name of table in which to store raddecs |
+| raddecColumn  | "raddec"            | Name of column in which to store raddec |
+| dynambTable   | "dynamb"            | Name of table in which to store dynambs |
+| dynambColumn  | "dynamb"            | Name of column in which to store dynamb |
+| eventsToStore | { dynamb: {} }      | See event-specific properties below   |
 
 For raddec events, all [raddec](https://github.com/reelyactive/raddec/) toFlattened() options are supported.  The default is { includePackets: false }.  A `filters` property is also supported, which observes the properties of a [raddec-filter](https://github.com/reelyactive/raddec-filter/).
 
@@ -107,23 +114,26 @@ The default config is as follows:
       }
     }
 
-## Testing / Simulator
+
+Testing / Simulator
+-------------------
 
 It is possible to test `barnacles-tds` with simulated `raddec` and `dynamb` events by running the following command: 
 `npm run simulator`
 
 The following environment variables can optionally be set 
 
-| ENVIRONMENT VARIABLE        | Default      | Description                                                      |
-| :-------------------------- | :----------- | :--------------------------------------------------------------- |
-| INTERVAL_MILLISECONDS       | 5000         | Milliseconds between starting to emit events                     |
-| NUMBER_OF_DYNAMB_EVENTS     | 1            | Number of dynamb events to emit each interval                    |
-| NUMBER_OF_RADDEC_EVENTS     | 1            | Number of raddec events to emit each interval                    |
-
+| ENVIRONMENT VARIABLE    | Default | Description                             |
+|:------------------------|:--------|:----------------------------------------|
+| INTERVAL_MILLISECONDS   | 5000    | Milliseconds between starting to emit events |
+| NUMBER_OF_DYNAMB_EVENTS | 1       | Number of dynamb events to emit each interval |
+| NUMBER_OF_RADDEC_EVENTS | 1       | Number of raddec events to emit each interval |
 
 To load test sending events to a database, the `NUMBER_OF_DYNAMB_EVENTS` and `NUMBER_OF_RADDEC_EVENTS` environment variables can be set to control the number of events sent every interval. For example: 
 
-```NUMBER_OF_DYNAMB_EVENTS=250 NUMBER_OF_RADDEC_EVENTS=100 npm run simulator```
+```
+NUMBER_OF_DYNAMB_EVENTS=250 NUMBER_OF_RADDEC_EVENTS=100 npm run simulator
+```
 
 Each simulated event will be unique, with an `intervalCount` and `deviceNumber` used to identify when the event was sent.
 
@@ -133,18 +143,23 @@ The `intervalCount` identifies which batch the event was created in. The count w
 
 Using the combined values of the `intervalCount` and `deviceID` can help identify when an event was sent, useful for debugging.
 
+__NOTE__: If the number of events is too high, or the interval too quick, then the events will become backlogged in the `tdsRequestQueue`, and won't end up getting sent to the database. On a laptop with a local instance of SQL Server, it was found that 350 events every 1000 milliseconds was about the maximum before events became backlogged.
 
-**NOTE**: If the number of events is too high, or the interval too quick, then the events will become backlogged in the `tdsRequestQueue`, and won't end up getting sent to the database. On a laptop with a local instance of SQL Server, it was found that 350 events every 1000 milliseconds was about the maximum before events became backlogged.
 
-## Contributing
+Contributing
+------------
 
 Discover [how to contribute](CONTRIBUTING.md) to this open source project which upholds a standard [code of conduct](CODE_OF_CONDUCT.md).
 
-## Security
+
+Security
+--------
+
 
 Consult our [security policy](SECURITY.md) for best practices using this open source software and to report vulnerabilities.
 
-## License
+License
+-------
 
 MIT License
 
