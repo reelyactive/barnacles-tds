@@ -116,6 +116,18 @@ The default config is as follows:
 
 Note that starting in v1.5.x, the `accelerationTimeSeries` property of any dynamb is automatically removed before database insertion, as the size of this value is generally incompatible with the default database settings.
 
+### eventsToStore
+
+The _eventsToStore_ option determines which events (_raddec_ and/or _dynamb_) are to be stored in the database, and any event-specific options such as filter parameters.  For instance, to store only _dynamb_ objects which include a `temperature` property:
+
+    {
+      dynamb: {
+        filterParameters: { acceptedProperties: [ 'temperature' ] }
+      }
+    }
+
+Each event supports _filterParameters_.  Consult the [raddec-filter](https://github.com/reelyactive/raddec-filter/) and [dynamb-filter](https://github.com/reelyactive/dynamb-filter/) documentation for their respective parameters.
+
 
 Testing / Simulator
 -------------------
