@@ -96,6 +96,7 @@ Options
 | raddecColumn  | "raddec"            | Name of column in which to store raddec |
 | dynambTable   | "dynamb"            | Name of table in which to store dynambs |
 | dynambColumn  | "dynamb"            | Name of column in which to store dynamb |
+| maxRequestQueueLength | 1000        | Max number of DB requests to buffer   |
 | eventsToStore | { dynamb: {} }      | See event-specific properties below   |
 
 For raddec events, all [raddec](https://github.com/reelyactive/raddec/) toFlattened() options are supported.  The default is { includePackets: false }.  A `filters` property is also supported, which observes the properties of a [raddec-filter](https://github.com/reelyactive/raddec-filter/).
