@@ -12,7 +12,7 @@
     "SQL Server",
     "TDS"
   ],
-  "version": "1.6.0",
+  "version": "1.7.0",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -29,7 +29,7 @@
     "dynamb-filter": "^1.0.1",
     "raddec": "^0.6.2",
     "raddec-filter": "^1.0.1",
-    "tedious": "^20.0.0"
+    "tedious": "^20.3.8"
   },
   "bugs": {
     "url": "https://github.com/reelyactive/barnacles-tds/issues"
