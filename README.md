@@ -36,6 +36,7 @@ const BARNACLES_TDS_OPTIONS = {
     options: {
       encrypt: false,
       database: 'pareto-anywhere',
+      requestTimeout: 5000,
     },
   },
   raddecTable: 'raddec',
